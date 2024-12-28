@@ -6,23 +6,23 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 4369b0052efb91109391b5f4f797cd5fa6a2a3ac436b6d11205fd992de02adef
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - ghtoken=ghtoken.__main__:main
 
 requirements:
   host:
-    - python >=3.8
+    - python {{ python_min }}
     - pip
     - hatchling
   run:
-    - python >=3.8
+    - python >={{ python_min }}
     - python-dotenv
     - ruamel.yaml >=0.15,<1
 
@@ -32,6 +32,7 @@ test:
     - git
     - pytest
     - pytest-cov
+    - python {{ python_min }}
   source_files:
     - test
     - tox.ini
